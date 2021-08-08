@@ -1,14 +1,14 @@
-const { Service, Intents, RichEmbed } = require("../index");
-const service = new Service({
+const { Client, Intents, RichEmbed } = require("../index");
+const client = new Client({
   token: "your_secret_token",
   intents: [Intents.GUILD_MESSAGES, Intents.GUILDS]
 });
 
-service.on("ready", () => {
+client.on("ready", () => {
   const embed = new RichEmbed()
-  .setDescription("Hello my name is"+ service.me.username);
+    .setDescription(`Hello my name is ${client.me.username}`);
   
-  service.sendMessage("your_channel_id", { embed });
+  client.sendMessage("your_channel_id", { embed });
 });
 
-service.connect();
+client.connect();
