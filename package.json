@@ -1,0 +1,23 @@
+{
+  "name": "erla",
+  "version": "1.0.0",
+  "description": "A community library for the Discord API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/erla-js/erla.git"
+  },
+  "author": "lmael",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/erla-js/erla/issues"
+  },
+  "homepage": "https://github.com/erla-js/erla#readme",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "ws": "^8.0.0"
+  }
+}
