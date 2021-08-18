@@ -23,12 +23,7 @@ module.exports = class WebSocketHandler {
 
       switch (payload.op) {
         case Opcodes.DISPATCH:
-          const event = dispatches[payload.t]
-
-          if (event) {
-            event(payload, this._client)
-          }
-
+          dispatches[payload.t]?.(payload, this._client)
           this._client.emit('raw', payload)
           break
 
