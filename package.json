@@ -2,7 +2,7 @@
   "name": "erla",
   "version": "1.0.0",
   "description": "A community library for the Discord API",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint:fix": "eslint --fix .",
@@ -12,6 +12,9 @@
     "type": "git",
     "url": "git+https://github.com/erla-js/erla.git"
   },
+  "keywords": [
+    "discord"
+  ],
   "author": "lmael",
   "license": "MIT",
   "bugs": {
@@ -19,15 +22,6 @@
   },
   "homepage": "https://github.com/erla-js/erla#readme",
   "dependencies": {
-    "axios": "^0.21.1",
-    "ws": "^8.0.0"
-  },
-  "devDependencies": {
-    "eslint": "^7.32.0",
-    "babel-eslint": "^10.1.0",
-    "eslint-config-standard": "^16.0.3",
-    "eslint-plugin-import": "^2.24.0",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^5.1.0"
+    "ws": "^8.2.0"
   }
 }
