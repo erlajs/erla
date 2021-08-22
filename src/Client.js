@@ -26,7 +26,8 @@ module.exports = class Client extends EventEmitter {
     return this.requestHandler.request(Endpoints.CHANNEL_MESSAGES(channelId), {
       method: 'POST',
       body: options
-    })
+    }).then(message =>
+      new Structures.Message(message))
   }
 
   fetchUser (userId) {
