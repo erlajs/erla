@@ -4,6 +4,7 @@ const TextChannel = require('./TextChannel')
 const Emoji = require('./Emoji')
 const Message = require('./Message')
 const GuildMember = require('./GuildMember')
+const RichEmbed = require('./RichEmbed')
 
 module.exports = {
   User,
@@ -11,5 +12,6 @@ module.exports = {
   TextChannel,
   Emoji,
   Message,
-  GuildMember
+  GuildMember,
+  RichEmbed
 }

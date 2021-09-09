@@ -10,6 +10,10 @@ module.exports = class Client extends EventEmitter {
   constructor (options) {
     super()
 
+    if (!options.token || typeof options.token !== 'string') {
+      throw new Error('Invalid Token')
+    }
+
     this.requestHandler = new RequestHandler(options.token)
     this.ws = new WebSocketHandler(this, options.token, GatewayIntents.resolve(options.intents))
     this.ready = null
@@ -36,6 +40,6 @@ module.exports = class Client extends EventEmitter {
   }
 
   get uptime () {
-    return Date.now() - this.ready
+    return Date.now()
   }
 }
