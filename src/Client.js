@@ -11,11 +11,15 @@ module.exports = class Client extends EventEmitter {
     super()
 
     if (!options.token || typeof options.token !== 'string') {
-      throw new Error('Invalid Token')
+      throw new TypeError('Invalid Token')
     }
 
     this.requestHandler = new RequestHandler(options.token)
-    this.ws = new WebSocketHandler(this, options.token, GatewayIntents.resolve(options.intents))
+    this.ws = new WebSocketHandler(
+      this,
+      options.token,
+      GatewayIntents.resolve(options.intents)
+    )
     this.ready = null
 
     this.user = null
@@ -27,19 +31,17 @@ module.exports = class Client extends EventEmitter {
   }
 
   createMessage (channelId, options) {
-    return this.requestHandler.request(Endpoints.CHANNEL_MESSAGES(channelId), {
-      method: 'POST',
-      body: options
-    }).then(message =>
-      new Structures.Message(message))
+    return this.requestHandler
+      .request(Endpoints.CHANNEL_MESSAGES(channelId), {
+        method: 'POST',
+        body: options
+      })
+      .then((message) => new Structures.Message(message))
   }
 
   fetchUser (userId) {
-    return this.requestHandler.request(Endpoints.USER(userId)).then(user =>
-      new Structures.User(user))
-  }
-
-  get uptime () {
-    return Date.now()
+    return this.requestHandler
+      .request(Endpoints.USER(userId))
+      .then((user) => new Structures.User(user))
   }
 }
