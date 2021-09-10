@@ -6,7 +6,7 @@ module.exports = class User extends Base {
     super(data.id)
 
     this.username = data.username
-    this.discriminator = data.discrim
+    this.discriminator = data.discriminator
     this.bot = data.bot
     this.flags = data.flags
     this.avatar = data.avatar
