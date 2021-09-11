@@ -5,16 +5,16 @@ module.exports = class RichEmbed extends Base {
   constructor (data = {}) {
     super(data.id)
 
-    this.title = data?.title
-    this.author = data?.author
-    this.description = data?.description
-    this.fields = data?.fields ?? []
-    this.url = data?.url
-    this.color = data?.color
-    this.thumbnail = data?.thumbnail
-    this.image = data?.image
-    this.timestamp = data?.timestamp
-    this.footer = data?.footer
+    this.title = data.title
+    this.author = data.author
+    this.description = data.description
+    this.fields = data.fields ?? []
+    this.url = data.url
+    this.color = data.color
+    this.thumbnail = data.thumbnail
+    this.image = data.image
+    this.timestamp = data.timestamp
+    this.footer = data.footer
   }
 
   /**
