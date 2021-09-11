@@ -1,0 +1,48 @@
+name: '🐛 Bug report'
+description: 'Report incorrect or unexpected bug'
+title: 'Bug: <title>'
+labels: [bug, need repro]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug description
+      description: |
+        Describe the bug.
+        Tip: You can attach images or log files by clicking this area to highlight it and then dragging files into it.
+      placeholder: |
+        Describe here your bug...
+    validations:
+      required: true
+  - type: textarea
+    id: codesample
+    attributes:
+      label: Codesample
+      description: Include a reproducible, minimal code sample. This will be automatically formatted into code, so no need for backticks.
+      render: typescript
+      placeholder: |
+        Your code here.
+  - type: input
+    id: node-version
+    attributes:
+      label: Node.js version
+      description: Which version of Node.js are you using? Run `node --version` in your project directory and paste the output.
+      placeholder: Node.js version 16.6+ is required for version 13.0.0+
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: Operating system
+      description: Which OS does your application run on?
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority this issue should have
+      description: Please be realistic. If you need to elaborate on your reasoning, please use the Issue description field above.
+      options:
+        - Low (slightly annoying)
+        - Medium (should be fixed soon)
+        - High (immediate attention needed)
+    validations:
+      required: true
