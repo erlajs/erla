@@ -54,15 +54,13 @@ module.exports = class WebSocketHandler {
   }
 
   heartbeat (interval) {
-    this.connection.send(JSON.stringify({
-      op: Opcodes.HEARTBEAT,
-      d: null
-    }))
-
-    this._lastHeartbeat = Date.now()
-
     this._interval = setInterval(() => {
-      this.heartbeat(interval)
+      this.connection.send(JSON.stringify({
+        op: Opcodes.HEARTBEAT,
+        d: null
+      }))
+
+      this._lastHeartbeat = Date.now()
     }, interval)
   }
 
