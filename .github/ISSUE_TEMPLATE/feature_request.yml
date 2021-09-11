@@ -1,0 +1,29 @@
+name: '✨ Feature request'
+description: 'Request a new feature'
+title: 'Feature request: <title>'
+labels: [feature request]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        What do you suggest to implement in erla?
+        answer the questions below and you can send us your suggestion
+        and a member of the erla team will evaluate it...
+  - type: textarea
+    id: description
+    attributes:
+      label: Feature
+      description: Be specific about what you want to add to erla, so that we have more visibility into what you want.
+      placeholder: I always wanted this function to be possible... discord has added a new feature... This code is unnecessary and polluting...
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Solution
+      description: What do you want this feature to do?
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Other context
+      description: Any other context, screenshots, or file uploads that help us understand your feature request.
