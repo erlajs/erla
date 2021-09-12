@@ -8,6 +8,5 @@ module.exports = class Invite extends Base {
     this.code = data.code;
     this.maxAge = data.max_age ?? null;
     this.uses = data.uses ?? null;
-    
   }
 }
