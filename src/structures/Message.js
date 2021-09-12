@@ -8,6 +8,8 @@ module.exports = class Message extends Base {
     this.content = data.content
     this.guildId = data.guild_id
     this.channelId = data.channel_id
-    this.author = new User(data.author)
+    if (data.author) {
+      this.author = new User(data.author)
+    }
   }
 }

@@ -7,6 +7,8 @@ const GuildMember = require('./GuildMember')
 const Role = require('./Role')
 const VoiceChannel = require('./VoiceChannel')
 const RichEmbed = require('./RichEmbed')
+const Guild = require('./Guild')
+const MessageButton = require('./MessageButton')
 
 module.exports = {
   User,
@@ -17,5 +19,7 @@ module.exports = {
   GuildMember,
   Role,
   VoiceChannel,
-  RichEmbed
+  RichEmbed,
+  Guild,
+  MessageButton
 }
