@@ -8,6 +8,5 @@ module.exports = class Webhook extends Base {
     this.avatar = data.avatar;
     this.guildId = data.guild_id;
     this.channelId = data.channel_id;
-    
   }
 }
