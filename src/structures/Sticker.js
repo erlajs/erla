@@ -1,6 +1,6 @@
 const Base = require('./Base')
 
-module.exports = class Emoji extends Base {
+module.exports = class Sticker extends Base {
   constructor (data) {
     super(data.id)
 
