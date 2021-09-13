@@ -9,6 +9,7 @@ const VoiceChannel = require('./VoiceChannel')
 const RichEmbed = require('./RichEmbed')
 const Guild = require('./Guild')
 const MessageButton = require('./MessageButton')
+const SelectMenu = require('./SelectMenu')
 
 module.exports = {
   User,
@@ -21,5 +22,6 @@ module.exports = {
   VoiceChannel,
   RichEmbed,
   Guild,
-  MessageButton
+  MessageButton,
+  SelectMenu
 }
