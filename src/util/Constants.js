@@ -6,7 +6,7 @@ const version = proj.version
 export default {
   LIB: proj.name,
   PROJ_VERSION: version,
-  VERSION: "9",
+  VERSION: "10",
 
   OPCODES: {
     DISPATCH: 0,

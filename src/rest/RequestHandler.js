@@ -33,9 +33,18 @@ export default class RequestHandler {
 
         message.on("data", chunk => data += chunk)
 
-        message.on("end", () => resolve(
-          JSON.parse(data)
-        ))
+        message.on("end", () => {
+          if (!data) {
+            resolve({
+              statusCode: message.statusCode,
+              message: message.statusMessage
+            })
+          } else {
+            resolve(
+              JSON.parse(data)
+            )
+          }
+        })
 
         message.on("error", reject)
       })

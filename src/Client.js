@@ -4,6 +4,7 @@ import Endpoints from "./rest/Endpoints.js"
 
 import Message from "./struct/Message.js"
 import User from "./struct/User.js"
+import Embed from "./struct/Embed.js"
 
 export default class Client {
   constructor(intents) {
@@ -26,6 +27,16 @@ export default class Client {
   }
 
   createMessage(channelId, options) {
+    if (typeof options == "string") {
+      options = {
+        content: options
+      }
+    } else if (options instanceof Embed) {
+      options = {
+        embeds: [options]
+      }
+    }
+
     return this.requestHandler.request(
       Endpoints.CHANNEL_MESSAGES(channelId), {
         method: "POST",
@@ -38,5 +49,169 @@ export default class Client {
     return this.requestHandler.request(
       Endpoints.USER(userId)
     ).then(data => new User(data))
+  }
+
+  /**
+   * Interaction
+   */
+
+  /**
+   * Global application commands
+   */
+
+  getGlobalCommands() {
+    return this.request.request(
+      Endpoints.GLOBAL_APPLICATION_COMMAND_REGISTER(
+        this.user.id
+      ), {
+        method: "GET"
+      }
+    )
+  }
+
+  createGlobalCommand(command) {
+    return this.request.request(
+      Endpoints.GLOBAL_APPLICATION_COMMAND_REGISTER(
+        this.user.id
+      ), {
+        method: "POST",
+        body: command
+      }
+    )
+  }
+
+  getGlobalCommand(commandId) {
+    return this.request.request(
+      Endpoints.GLOBAL_APPLICATION_COMMAND_EDITOR(
+        this.user.id,
+        commandId
+      ), {
+        method: "GET"
+      }
+    )
+  }
+
+  editGlobalCommand(commandId, newCommand) {
+    return this.request.request(
+      Endpoints.GLOBAL_APPLICATION_COMMAND_EDITOR(
+        this.user.id,
+        commandId
+      ), {
+        method: "PATCH",
+        body: newCommand
+      }
+    )
+  }
+
+  deleteGlobalCommand(commandId) {
+    return this.request.request(
+      Endpoints.GLOBAL_APPLICATION_COMMAND_EDITOR(
+        this.user.id,
+        commandId
+      ), {
+        method: "DELETE"
+      }
+    )
+  }
+
+  overwriteGlobalCommands(commands) {
+    return this.request.request(
+      Endpoints.GLOBAL_APPLICATION_COMMAND_REGISTER(
+        this.user.id
+      ), {
+        method: "PUT",
+        body: commands
+      }
+    )
+  }
+
+  /**
+   * Guild application commands
+   */
+
+  getGuildCommands(guildId) {
+    return this.requestHandler.request(
+      Endpoints.GUILD_APPLICATION_COMMAND_REGISTER(
+        this.user.id,
+        guildId
+      ), {
+        method: "GET"
+      }
+    )
+  }
+
+  createGuildCommand(guildId, command) {
+    return this.requestHandler.request(
+      Endpoints.GUILD_APPLICATION_COMMAND_REGISTER(
+        this.user.id,
+        guildId
+      ), {
+        method: "POST",
+        body: command
+      }
+    )
+  }
+
+  getGuildCommand(guildId, commandId) {
+    return this.requestHandler.request(
+      Endpoints.GUILD_APPLICATION_COMMAND_EDITOR(
+        this.user.id,
+        guildId,
+        commandId
+      ), {
+        method: "GET"
+      }
+    )
+  }
+
+  editGuildCommand(guildId, commandId, newCommand) {
+    return this.requestHandler.request(
+      Endpoints.GUILD_APPLICATION_COMMAND_EDITOR(
+        this.user.id,
+        guildId,
+        commandId
+      ), {
+        method: "PATCH",
+        body: newCommand
+      }
+    )
+  }
+
+  deleteGuildCommand(guildId, commandId) {
+    return this.requestHandler.request(
+      Endpoints.GUILD_APPLICATION_COMMAND_EDITOR(
+        this.user.id,
+        guildId,
+        commandId
+      ), {
+        method: "DELETE"
+      }
+    )
+  }
+
+  overwriteGuildCommands(guildId, commands) {
+    return this.requestHandler.request(
+      Endpoints.GUILD_APPLICATION_COMMAND_REGISTER(
+        this.user.id,
+        guildId
+      ), {
+        method: "PUT",
+        body: commands
+      }
+    )
+  }
+  
+  // ---
+
+  createInteractionResponse(interaction, response) {
+    return this.requestHandler.request(
+      Endpoints.INTERACTION_RESPONSE(
+        interaction._id,
+        interaction._token
+      ), {
+        method: "POST",
+        body: response
+      }
+    )
   }
 }
