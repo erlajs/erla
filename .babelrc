@@ -1,0 +1,5 @@
+{
+  "plugins": [
+    "@babel/syntax-import-assertions"
+  ]
+}

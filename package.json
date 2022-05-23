@@ -26,6 +26,7 @@
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.17.0",
+    "@babel/plugin-syntax-import-assertions": "^7.17.12",
     "eslint": "^8.16.0"
   }
 }
