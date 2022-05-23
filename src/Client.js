@@ -60,7 +60,7 @@ export default class Client {
    */
 
   getGlobalCommands() {
-    return this.request.request(
+    return this.requestHandler.request(
       Endpoints.GLOBAL_APPLICATION_COMMAND_REGISTER(
         this.user.id
       ), {
@@ -70,7 +70,7 @@ export default class Client {
   }
 
   createGlobalCommand(command) {
-    return this.request.request(
+    return this.requestHandler.request(
       Endpoints.GLOBAL_APPLICATION_COMMAND_REGISTER(
         this.user.id
       ), {
@@ -81,7 +81,7 @@ export default class Client {
   }
 
   getGlobalCommand(commandId) {
-    return this.request.request(
+    return this.requestHandler.request(
       Endpoints.GLOBAL_APPLICATION_COMMAND_EDITOR(
         this.user.id,
         commandId
@@ -92,7 +92,7 @@ export default class Client {
   }
 
   editGlobalCommand(commandId, newCommand) {
-    return this.request.request(
+    return this.requestHandler.request(
       Endpoints.GLOBAL_APPLICATION_COMMAND_EDITOR(
         this.user.id,
         commandId
@@ -104,7 +104,7 @@ export default class Client {
   }
 
   deleteGlobalCommand(commandId) {
-    return this.request.request(
+    return this.requestHandler.request(
       Endpoints.GLOBAL_APPLICATION_COMMAND_EDITOR(
         this.user.id,
         commandId
@@ -115,7 +115,7 @@ export default class Client {
   }
 
   overwriteGlobalCommands(commands) {
-    return this.request.request(
+    return this.requestHandler.request(
       Endpoints.GLOBAL_APPLICATION_COMMAND_REGISTER(
         this.user.id
       ), {
