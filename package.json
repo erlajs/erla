@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "JavaScript abstractions for Discord API ",
   "main": "./src/index.js",
+  "type": "module",
   "scripts": {
     "lint:fix": "eslint --fix .",
     "lint": "eslint ."
@@ -24,6 +25,7 @@
     "ws": "^8.6.0"
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.17.0",
     "eslint": "^8.16.0"
   }
 }

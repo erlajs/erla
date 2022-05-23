@@ -1,8 +1,8 @@
-const https = require("https")
+import https from "https"
 
-const Constants = require("../util/Constants")
+import Constants from "../util/Constants.js"
 
-module.exports = class RequestHandler {
+export default class RequestHandler {
   constructor(token) {
     this._token = token
     this._baseUrl = `https://discord.com/api/v${Constants.VERSION}`

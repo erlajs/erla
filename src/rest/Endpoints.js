@@ -1,2 +1,4 @@
-module.exports.USER = userId => `/users/${userId}`
-module.exports.CHANNEL_MESSAGES = channelId => `/channels/${channelId}/messages`
+export default {
+  USER: userId => `/users/${userId}`,
+  CHANNEL_MESSAGES: channelId => `/channels/${channelId}/messages`
+}

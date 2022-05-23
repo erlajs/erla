@@ -1,6 +1,6 @@
-const User = require("../../struct/User")
+import User from "../../struct/User.js"
 
-module.exports = function onReady(payload, client) {
+export default function onReady(payload, client) {
   client.user = new User(payload.d.user)
 
   client.ws.emit("ready")

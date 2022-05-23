@@ -1,4 +1,7 @@
-module.exports = {
-  READY: require("./READY"),
-  MESSAGE_CREATE: require("./MESSAGE_CREATE")
+import READY from "./READY.js"
+import MESSAGE_CREATE from "./MESSAGE_CREATE.js"
+
+export default {
+  READY,
+  MESSAGE_CREATE
 }

@@ -1,3 +1,5 @@
-module.exports = {
-  Client: require("./Client")
+import Client from "./Client.js"
+
+export {
+  Client
 }

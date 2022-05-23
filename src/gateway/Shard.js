@@ -1,10 +1,10 @@
-const WebSocket = require("ws")
-const EventEmitter = require("events")
+import WebSocket from "ws"
+import EventEmitter from "events"
 
-const Constants = require("../util/Constants")
-const dispatch = require("./dispatch")
+import Constants from "../util/Constants.js"
+import dispatch from "./dispatch/index.js"
 
-module.exports = class Shard extends EventEmitter {
+export default class Shard extends EventEmitter {
   constructor(token, intents) {
     super()
 

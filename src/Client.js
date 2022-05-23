@@ -1,11 +1,11 @@
-const Shard = require("./gateway/Shard")
-const RequestHandler = require("./rest/RequestHandler")
-const Endpoints = require("./rest/Endpoints")
+import Shard from "./gateway/Shard.js"
+import RequestHandler from "./rest/RequestHandler.js"
+import Endpoints from "./rest/Endpoints.js"
 
-const Message = require("./struct/Message")
-const User = require("./struct/User")
+import Message from "./struct/Message.js"
+import User from "./struct/User.js"
 
-module.exports = class Client {
+export default class Client {
   constructor(intents) {
     this.intents = intents
 
@@ -15,9 +15,7 @@ module.exports = class Client {
   }
 
   login(token) {
-    const tokenExpr = /[\w-]{24}\.[\w-]{6}\.[\w-]{27}/
-
-    if (!token || typeof token != "string" || !tokenExpr.test(token)) {
+    if (!token || typeof token != "string") {
       throw new TypeError("Invalid token")
     }
 

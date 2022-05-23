@@ -1,5 +1,5 @@
-const Message = require("../../struct/Message")
+import Message from "../../struct/Message.js"
 
-module.exports = function onMessageCreate(payload, client) {
+export default function onMessageCreate(payload, client) {
   client.ws.emit("messageCreate", new Message(payload.d))
 }

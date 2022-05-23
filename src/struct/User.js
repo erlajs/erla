@@ -1,7 +1,7 @@
-const Base = require("./Base")
-const Contants = require("../util/Constants")
+import Base from "./Base.js"
+import Constants from "../util/Constants.js"
 
-module.exports = class User extends Base {
+export default class User extends Base {
   constructor(data) {
     super(data.id)
 
@@ -17,7 +17,7 @@ module.exports = class User extends Base {
   }
 
   get defaultAvatar() {
-    return Contants.DEFAULT_AVATARS[this.discrim % 5]
+    return Constants.DEFAULT_AVATARS[this.discrim % 5]
   }
 
   avatarURL(options) {
