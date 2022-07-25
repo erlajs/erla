@@ -1,217 +1,197 @@
-import Shard from "./gateway/Shard.js"
-import RequestHandler from "./rest/RequestHandler.js"
-import Endpoints from "./rest/Endpoints.js"
+import EventEmitter from 'events';
 
-import Message from "./struct/Message.js"
-import User from "./struct/User.js"
-import Embed from "./struct/Embed.js"
+import GatewaySocket from './gateway/GatewaySocket.js';
+import RequestHandler from './http/RequestHandler.js';
+import Endpoints from './http/Endpoints.js';
 
-export default class Client {
-  constructor(intents) {
-    this.intents = intents
+import User from './entities/global/User.js';
+import Message from './entities/message/Message.js';
 
-    this.ws = null
-    this.requestHandler = null
-    this.user = null
+export class Client extends EventEmitter {
+  user;
+
+  constructor(options = {}) {
+    super();
+
+    this.intents = options.intents || 0;
   }
 
   login(token) {
-    if (!token || typeof token != "string") {
-      throw new TypeError("Invalid token")
-    }
-
-    this.ws = new Shard(token, this.intents)
-    this.requestHandler = new RequestHandler(token)
-
-    this.ws._connect(this)
+    this.token = token;
+    
+    this.rest = new RequestHandler(token);
+    this.gateway = new GatewaySocket(this);
+    
+    this.gateway.connect();
   }
 
   createMessage(channelId, options) {
-    if (typeof options == "string") {
+    if (typeof options == 'string')
       options = {
         content: options
-      }
-    } else if (options instanceof Embed) {
-      options = {
-        embeds: [options]
-      }
-    }
+      };
 
-    return this.requestHandler.request(
+    return this.rest.request(
       Endpoints.CHANNEL_MESSAGES(channelId), {
-        method: "POST",
+        method: 'POST',
         body: options
       }
-    ).then(data => new Message(data))
+    ).then(d => new Message(d));
   }
 
   fetchUser(userId) {
-    return this.requestHandler.request(
+    return this.rest.request(
       Endpoints.USER(userId)
-    ).then(data => new User(data))
+    ).then(d => new User(d));
   }
 
-  /**
-   * Interaction
-   */
-
-  /**
-   * Global application commands
-   */
-
   getGlobalCommands() {
-    return this.requestHandler.request(
+    return this.rest.request(
       Endpoints.GLOBAL_APPLICATION_COMMAND_REGISTER(
         this.user.id
       ), {
-        method: "GET"
+        method: 'GET'
       }
-    )
+    );
   }
 
   createGlobalCommand(command) {
-    return this.requestHandler.request(
+    return this.rest.request(
       Endpoints.GLOBAL_APPLICATION_COMMAND_REGISTER(
         this.user.id
       ), {
-        method: "POST",
+        method: 'POST',
         body: command
       }
-    )
+    );
   }
 
   getGlobalCommand(commandId) {
-    return this.requestHandler.request(
+    return this.rest.request(
       Endpoints.GLOBAL_APPLICATION_COMMAND_EDITOR(
         this.user.id,
         commandId
       ), {
-        method: "GET"
+        method: 'GET'
       }
-    )
+    );
   }
 
   editGlobalCommand(commandId, newCommand) {
-    return this.requestHandler.request(
+    return this.rest.request(
       Endpoints.GLOBAL_APPLICATION_COMMAND_EDITOR(
         this.user.id,
         commandId
       ), {
-        method: "PATCH",
+        method: 'PATCH',
         body: newCommand
       }
-    )
+    );
   }
 
   deleteGlobalCommand(commandId) {
-    return this.requestHandler.request(
+    return this.rest.request(
       Endpoints.GLOBAL_APPLICATION_COMMAND_EDITOR(
         this.user.id,
         commandId
       ), {
-        method: "DELETE"
+        method: 'DELETE'
       }
-    )
+    );
   }
 
   overwriteGlobalCommands(commands) {
-    return this.requestHandler.request(
+    return this.rest.request(
       Endpoints.GLOBAL_APPLICATION_COMMAND_REGISTER(
         this.user.id
       ), {
-        method: "PUT",
+        method: 'PUT',
         body: commands
       }
-    )
+    );
   }
 
-  /**
-   * Guild application commands
-   */
-
   getGuildCommands(guildId) {
-    return this.requestHandler.request(
+    return this.rest.request(
       Endpoints.GUILD_APPLICATION_COMMAND_REGISTER(
         this.user.id,
         guildId
       ), {
-        method: "GET"
+        method: 'GET'
       }
-    )
+    );
   }
 
   createGuildCommand(guildId, command) {
-    return this.requestHandler.request(
+    return this.rest.request(
       Endpoints.GUILD_APPLICATION_COMMAND_REGISTER(
         this.user.id,
         guildId
       ), {
-        method: "POST",
+        method: 'POST',
         body: command
       }
-    )
+    );
   }
 
   getGuildCommand(guildId, commandId) {
-    return this.requestHandler.request(
+    return this.rest.request(
       Endpoints.GUILD_APPLICATION_COMMAND_EDITOR(
         this.user.id,
         guildId,
         commandId
       ), {
-        method: "GET"
+        method: 'GET'
       }
-    )
+    );
   }
 
   editGuildCommand(guildId, commandId, newCommand) {
-    return this.requestHandler.request(
+    return this.rest.request(
       Endpoints.GUILD_APPLICATION_COMMAND_EDITOR(
         this.user.id,
         guildId,
         commandId
       ), {
-        method: "PATCH",
+        method: 'PATCH',
         body: newCommand
       }
-    )
+    );
   }
 
   deleteGuildCommand(guildId, commandId) {
-    return this.requestHandler.request(
+    return this.rest.request(
       Endpoints.GUILD_APPLICATION_COMMAND_EDITOR(
         this.user.id,
         guildId,
         commandId
       ), {
-        method: "DELETE"
+        method: 'DELETE'
       }
-    )
+    );
   }
 
   overwriteGuildCommands(guildId, commands) {
-    return this.requestHandler.request(
+    return this.rest.request(
       Endpoints.GUILD_APPLICATION_COMMAND_REGISTER(
         this.user.id,
         guildId
       ), {
-        method: "PUT",
+        method: 'PUT',
         body: commands
       }
-    )
+    );
   }
-  
-  // ---
 
-  createInteractionResponse(interaction, response) {
-    return this.requestHandler.request(
+  createInteractionResponse(interaction, options) {
+    return this.rest.request(
       Endpoints.INTERACTION_RESPONSE(
         interaction._id,
         interaction._token
       ), {
-        method: "POST",
-        body: response
+        method: 'POST',
+        body: options
       }
-    )
+    );
   }
 }

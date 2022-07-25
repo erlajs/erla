@@ -13,4 +13,4 @@ export default {
 
   INTERACTION_RESPONSE: (interactionId, interactionToken) =>
     `/interactions/${interactionId}/${interactionToken}/callback`
-}
+};

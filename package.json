@@ -1,32 +1,20 @@
 {
   "name": "erla",
   "version": "1.0.0",
-  "description": "JavaScript abstractions for Discord API ",
-  "main": "./src/index.js",
+  "description": "JavaScript abstractions for Discord API",
+  "main": "src/indedx.js",
   "type": "module",
-  "scripts": {
-    "lint:fix": "eslint --fix .",
-    "lint": "eslint ."
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/erlajs/erla.git"
-  },
-  "keywords": [
-    "discord"
-  ],
+  "repository": "https://github.com/erlajs/erla",
   "author": "arthucosta",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/erlajs/erla/issues"
-  },
-  "homepage": "https://github.com/erlajs/erla#readme",
-  "dependencies": {
-    "ws": "^8.6.0"
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix ."
   },
   "devDependencies": {
-    "@babel/eslint-parser": "^7.17.0",
-    "@babel/plugin-syntax-import-assertions": "^7.17.12",
-    "eslint": "^8.16.0"
+    "eslint": "^8.20.0"
+  },
+  "dependencies": {
+    "ws": "^8.8.1"
   }
 }
