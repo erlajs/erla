@@ -2,7 +2,7 @@
   "name": "erla",
   "version": "1.0.0",
   "description": "JavaScript abstractions for Discord API",
-  "main": "src/indedx.js",
+  "main": "src/index.js",
   "type": "module",
   "repository": "https://github.com/erlajs/erla",
   "author": "arthucosta",
