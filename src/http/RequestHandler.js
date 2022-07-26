@@ -42,10 +42,8 @@ export default class RequestHandler {
       });
 
       if (options.body) {
-        const body = typeof options.body == 'string' ?
-          options.body :
-          JSON.stringify(options.body);
-
+        const body = JSON.stringify(options.body);
+        
         req.setHeader('Content-Length', body.length);
         req.write(body);
       }
