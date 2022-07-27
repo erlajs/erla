@@ -1,7 +1,7 @@
-import BitField from './BitField.js';
+import BitField from './BitField.js'
 
 export default class PublicFlags extends BitField {
-  constructor(flags) {
+  constructor (flags) {
     super({
       DISCORD_EMPLOYEE: 1 << 0,
       PARTNERED_SERVER_OWNER: 1 << 1,
@@ -16,6 +16,6 @@ export default class PublicFlags extends BitField {
       BUGHUNTER_LEVEL_2: 1 << 14,
       VERIFIED_BOT: 1 << 16,
       EARLY_VERIFIED_BOT_DEVELOPER: 1 << 17
-    }, flags);
+    }, flags)
   }
 }

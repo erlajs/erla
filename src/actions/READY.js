@@ -1,7 +1,7 @@
-import User from '../entities/global/User.js';
+import User from '../entities/global/User.js'
 
-export default function(shard, payload) {
-  shard.user = new User(payload.d.user);
+export default function (shard, payload) {
+  shard.user = new User(payload.d.user)
 
-  shard.emit('ready');
+  shard.emit('ready')
 }

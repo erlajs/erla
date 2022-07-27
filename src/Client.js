@@ -1,61 +1,62 @@
-import EventEmitter from 'events';
+import EventEmitter from 'events'
 
-import GatewaySocket from './gateway/GatewaySocket.js';
-import RequestHandler from './http/RequestHandler.js';
-import Endpoints from './http/Endpoints.js';
+import GatewaySocket from './gateway/GatewaySocket.js'
+import RequestHandler from './http/RequestHandler.js'
+import Endpoints from './http/Endpoints.js'
 
-import User from './entities/global/User.js';
-import Message from './entities/message/Message.js';
+import User from './entities/global/User.js'
+import Message from './entities/message/Message.js'
 
 export class Client extends EventEmitter {
-  user;
+  user
 
-  constructor(options = {}) {
-    super();
+  constructor (options = {}) {
+    super()
 
-    this.intents = options.intents || 0;
+    this.intents = options.intents || 0
   }
 
-  login(token) {
-    this.token = token;
-    
-    this.rest = new RequestHandler(token);
-    this.gateway = new GatewaySocket(this);
+  login (token) {
+    this.token = token
 
-    this.gateway.connect();
+    this.rest = new RequestHandler(token)
+    this.gateway = new GatewaySocket(this)
+
+    this.gateway.connect()
   }
 
-  createMessage(channelId, options) {
-    if (typeof options == 'string')
+  createMessage (channelId, options) {
+    if (typeof options === 'string') {
       options = {
         content: options
-      };
+      }
+    }
 
     return this.rest.request(
       Endpoints.CHANNEL_MESSAGES(channelId), {
         method: 'POST',
         body: options
       }
-    ).then(d => new Message(d));
+    ).then(d => new Message(d))
   }
 
-  fetchUser(userId) {
+  fetchUser (userId) {
     return this.rest.request(
       Endpoints.USER(userId)
-    ).then(d => new User(d));
+    ).then(d => new User(d))
   }
 
-  getGlobalCommands() {
+  getGlobalCommands () {
     return this.rest.request(
       Endpoints.GLOBAL_APPLICATION_COMMAND_REGISTER(
         this.user.id
       ), {
         method: 'GET'
       }
-    );
+    )
   }
 
-  createGlobalCommand(command) {
+  createGlobalCommand (command) {
     return this.rest.request(
       Endpoints.GLOBAL_APPLICATION_COMMAND_REGISTER(
         this.user.id
@@ -63,10 +64,10 @@ export class Client extends EventEmitter {
         method: 'POST',
         body: command
       }
-    );
+    )
   }
 
-  getGlobalCommand(commandId) {
+  getGlobalCommand (commandId) {
     return this.rest.request(
       Endpoints.GLOBAL_APPLICATION_COMMAND_EDITOR(
         this.user.id,
@@ -74,10 +75,10 @@ export class Client extends EventEmitter {
       ), {
         method: 'GET'
       }
-    );
+    )
   }
 
-  editGlobalCommand(commandId, newCommand) {
+  editGlobalCommand (commandId, newCommand) {
     return this.rest.request(
       Endpoints.GLOBAL_APPLICATION_COMMAND_EDITOR(
         this.user.id,
@@ -86,10 +87,10 @@ export class Client extends EventEmitter {
         method: 'PATCH',
         body: newCommand
       }
-    );
+    )
   }
 
-  deleteGlobalCommand(commandId) {
+  deleteGlobalCommand (commandId) {
     return this.rest.request(
       Endpoints.GLOBAL_APPLICATION_COMMAND_EDITOR(
         this.user.id,
@@ -97,10 +98,10 @@ export class Client extends EventEmitter {
       ), {
         method: 'DELETE'
       }
-    );
+    )
   }
 
-  overwriteGlobalCommands(commands) {
+  overwriteGlobalCommands (commands) {
     return this.rest.request(
       Endpoints.GLOBAL_APPLICATION_COMMAND_REGISTER(
         this.user.id
@@ -108,10 +109,10 @@ export class Client extends EventEmitter {
         method: 'PUT',
         body: commands
       }
-    );
+    )
   }
 
-  getGuildCommands(guildId) {
+  getGuildCommands (guildId) {
     return this.rest.request(
       Endpoints.GUILD_APPLICATION_COMMAND_REGISTER(
         this.user.id,
@@ -119,10 +120,10 @@ export class Client extends EventEmitter {
       ), {
         method: 'GET'
       }
-    );
+    )
   }
 
-  createGuildCommand(guildId, command) {
+  createGuildCommand (guildId, command) {
     return this.rest.request(
       Endpoints.GUILD_APPLICATION_COMMAND_REGISTER(
         this.user.id,
@@ -131,10 +132,10 @@ export class Client extends EventEmitter {
         method: 'POST',
         body: command
       }
-    );
+    )
   }
 
-  getGuildCommand(guildId, commandId) {
+  getGuildCommand (guildId, commandId) {
     return this.rest.request(
       Endpoints.GUILD_APPLICATION_COMMAND_EDITOR(
         this.user.id,
@@ -143,10 +144,10 @@ export class Client extends EventEmitter {
       ), {
         method: 'GET'
       }
-    );
+    )
   }
 
-  editGuildCommand(guildId, commandId, newCommand) {
+  editGuildCommand (guildId, commandId, newCommand) {
     return this.rest.request(
       Endpoints.GUILD_APPLICATION_COMMAND_EDITOR(
         this.user.id,
@@ -156,10 +157,10 @@ export class Client extends EventEmitter {
         method: 'PATCH',
         body: newCommand
       }
-    );
+    )
   }
 
-  deleteGuildCommand(guildId, commandId) {
+  deleteGuildCommand (guildId, commandId) {
     return this.rest.request(
       Endpoints.GUILD_APPLICATION_COMMAND_EDITOR(
         this.user.id,
@@ -168,10 +169,10 @@ export class Client extends EventEmitter {
       ), {
         method: 'DELETE'
       }
-    );
+    )
   }
 
-  overwriteGuildCommands(guildId, commands) {
+  overwriteGuildCommands (guildId, commands) {
     return this.rest.request(
       Endpoints.GUILD_APPLICATION_COMMAND_REGISTER(
         this.user.id,
@@ -180,10 +181,10 @@ export class Client extends EventEmitter {
         method: 'PUT',
         body: commands
       }
-    );
+    )
   }
 
-  createInteractionResponse(interaction, options) {
+  createInteractionResponse (interaction, options) {
     return this.rest.request(
       Endpoints.INTERACTION_RESPONSE(
         interaction._id,
@@ -192,6 +193,6 @@ export class Client extends EventEmitter {
         method: 'POST',
         body: options
       }
-    );
+    )
   }
 }
