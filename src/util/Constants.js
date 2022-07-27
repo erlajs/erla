@@ -1,6 +1,6 @@
-export const IDENTIFICATION = 'erla';
-export const VERSION = '10';
-export const REPOSITORY = 'https://github.com/erlajs/erla';
+export const IDENTIFICATION = 'erla'
+export const VERSION = '10'
+export const REPOSITORY = 'https://github.com/erlajs/erla'
 
 export const OPCODES = {
   DISPATCH: 0,
@@ -15,4 +15,4 @@ export const OPCODES = {
   INVALID_SESSION: 9,
   HELLO: 10,
   HEARTBEAT_ACK: 11
-};
+}
