@@ -8,6 +8,6 @@ const client = new Client();
 
 client.on("messageCreate", (message) => {
   if(message.content === "!ping")
-    await client.createMessage(message.channelId, "Hello, ErlaJS!")
+    client.createMessage(message.channelId, "Hello, ErlaJS!")
 })
 ```
