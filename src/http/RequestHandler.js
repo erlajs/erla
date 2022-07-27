@@ -23,26 +23,31 @@ export default class RequestHandler {
           Authorization: `Bot ${this.#token.replace(/Bot\s?/, '')}`,
           'User-Agent': `${IDENTIFICATION} (${REPOSITORY} ${VERSION})`
         }
-      }, message => {
-        message.setEncoding('utf-8')
-
-        let data = ''
-
-        // eslint-disable-next-line no-return-assign
-        message.on('data', chunk => data += chunk)
-        message.on('end', () => {
-          if (data) { resolve(JSON.parse(data)) } else {
-            resolve({
-              statusCode: message.statusCode,
-              message: message.statusMessage
-            })
-          }
-        })
+      }, async message => {
         message.on('error', reject)
+
+        const buffers = []
+
+        for await (const chunk of message) {
+          buffers.push(chunk)
+        }
+
+        const data = Buffer.concat(buffers).toString('utf-8')
+
+        if (data) {
+          resolve(JSON.parse(data))
+        } else {
+          resolve({
+            statusCode: message.statusCode,
+            message: message.statusMessage
+          })
+        }
       })
 
       if (options.body) {
-        const body = JSON.stringify(options.body)
+        const body = typeof options.body === 'string'
+          ? options.body
+          : JSON.stringify(options.body)
 
         req.setHeader('Content-Length', body.length)
         req.write(body)
