@@ -3,6 +3,8 @@ import Base from '../Base.js';
 import User from '../global/User.js';
 
 export default class Message extends Base {
+  #shard;
+
   constructor(d) {
     super(d.id);
 

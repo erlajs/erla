@@ -21,7 +21,7 @@ export class Client extends EventEmitter {
     
     this.rest = new RequestHandler(token);
     this.gateway = new GatewaySocket(this);
-    
+
     this.gateway.connect();
   }
 

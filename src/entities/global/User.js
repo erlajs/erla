@@ -1,5 +1,7 @@
 import Base from '../Base.js';
 
+import PublicFlags from '../../util/PublicFlags.js';
+
 export default class User extends Base {
   constructor(d) {
     super(d.id);
@@ -9,6 +11,7 @@ export default class User extends Base {
     this.bot = d.bot || false;
     this.avatar = d.avatar;
     this.banner = d.banner;
+    this.flags = new PublicFlags(d.public_flags);
   }
 
   get tag() {

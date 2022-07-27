@@ -1,5 +1,6 @@
 export default {
   USER: userId => `/users/${userId}`,
+  CHANNEL: channelId => `/channels/${channelId}`,
   CHANNEL_MESSAGES: channelId => `/channels/${channelId}/messages`,
 
   GLOBAL_APPLICATION_COMMAND_REGISTER: applicationId =>
