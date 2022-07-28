@@ -139,12 +139,4 @@ export class Client extends EventEmitter {
         guildId
       ), commands)
   }
-
-  createInteractionResponse (interaction, options) {
-    return this.rest.post(
-      Endpoints.INTERACTION_RESPONSE(
-        interaction._id,
-        interaction._token
-      ), options)
-  }
 }
