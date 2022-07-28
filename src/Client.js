@@ -10,16 +10,16 @@ import Message from './entities/message/Message.js'
 export class Client extends EventEmitter {
   user
 
-  constructor (options = {}) {
+  constructor (token, options = {}) {
     super()
 
-    this.intents = options.intents || 0
-  }
-
-  login (token) {
     this.token = token
+    this.intents = options.intents || 0
 
     this.rest = new RequestHandler(token)
+  }
+
+  login () {
     this.gateway = new GatewaySocket(this)
 
     this.gateway.connect()
@@ -32,167 +32,119 @@ export class Client extends EventEmitter {
       }
     }
 
-    return this.rest.request(
-      Endpoints.CHANNEL_MESSAGES(channelId), {
-        method: 'POST',
-        body: options
-      }
+    return this.rest.post(
+      Endpoints.CHANNEL_MESSAGES(channelId),
+      options
     ).then(d => new Message(d))
   }
 
   fetchUser (userId) {
-    return this.rest.request(
+    return this.rest.get(
       Endpoints.USER(userId)
     ).then(d => new User(d))
   }
 
   getGlobalCommands () {
-    return this.rest.request(
+    return this.rest.get(
       Endpoints.GLOBAL_APPLICATION_COMMAND_REGISTER(
         this.user.id
-      ), {
-        method: 'GET'
-      }
-    )
+      ))
   }
 
   createGlobalCommand (command) {
-    return this.rest.request(
+    return this.rest.post(
       Endpoints.GLOBAL_APPLICATION_COMMAND_REGISTER(
         this.user.id
-      ), {
-        method: 'POST',
-        body: command
-      }
-    )
+      ), command)
   }
 
   getGlobalCommand (commandId) {
-    return this.rest.request(
+    return this.rest.get(
       Endpoints.GLOBAL_APPLICATION_COMMAND_EDITOR(
         this.user.id,
         commandId
-      ), {
-        method: 'GET'
-      }
-    )
+      ))
   }
 
   editGlobalCommand (commandId, newCommand) {
-    return this.rest.request(
+    return this.rest.patch(
       Endpoints.GLOBAL_APPLICATION_COMMAND_EDITOR(
         this.user.id,
         commandId
-      ), {
-        method: 'PATCH',
-        body: newCommand
-      }
-    )
+      ), newCommand)
   }
 
   deleteGlobalCommand (commandId) {
-    return this.rest.request(
+    return this.rest.delete(
       Endpoints.GLOBAL_APPLICATION_COMMAND_EDITOR(
         this.user.id,
         commandId
-      ), {
-        method: 'DELETE'
-      }
-    )
+      ))
   }
 
   overwriteGlobalCommands (commands) {
-    return this.rest.request(
+    return this.rest.put(
       Endpoints.GLOBAL_APPLICATION_COMMAND_REGISTER(
         this.user.id
-      ), {
-        method: 'PUT',
-        body: commands
-      }
-    )
+      ), commands)
   }
 
   getGuildCommands (guildId) {
-    return this.rest.request(
+    return this.rest.get(
       Endpoints.GUILD_APPLICATION_COMMAND_REGISTER(
         this.user.id,
         guildId
-      ), {
-        method: 'GET'
-      }
-    )
+      ))
   }
 
   createGuildCommand (guildId, command) {
-    return this.rest.request(
+    return this.rest.post(
       Endpoints.GUILD_APPLICATION_COMMAND_REGISTER(
         this.user.id,
         guildId
-      ), {
-        method: 'POST',
-        body: command
-      }
-    )
+      ), command)
   }
 
   getGuildCommand (guildId, commandId) {
-    return this.rest.request(
+    return this.rest.get(
       Endpoints.GUILD_APPLICATION_COMMAND_EDITOR(
         this.user.id,
         guildId,
         commandId
-      ), {
-        method: 'GET'
-      }
-    )
+      ))
   }
 
   editGuildCommand (guildId, commandId, newCommand) {
-    return this.rest.request(
+    return this.rest.patch(
       Endpoints.GUILD_APPLICATION_COMMAND_EDITOR(
         this.user.id,
         guildId,
         commandId
-      ), {
-        method: 'PATCH',
-        body: newCommand
-      }
-    )
+      ), newCommand)
   }
 
   deleteGuildCommand (guildId, commandId) {
-    return this.rest.request(
+    return this.rest.delete(
       Endpoints.GUILD_APPLICATION_COMMAND_EDITOR(
         this.user.id,
         guildId,
         commandId
-      ), {
-        method: 'DELETE'
-      }
-    )
+      ))
   }
 
   overwriteGuildCommands (guildId, commands) {
-    return this.rest.request(
+    return this.rest.put(
       Endpoints.GUILD_APPLICATION_COMMAND_REGISTER(
         this.user.id,
         guildId
-      ), {
-        method: 'PUT',
-        body: commands
-      }
-    )
+      ), commands)
   }
 
   createInteractionResponse (interaction, options) {
-    return this.rest.request(
+    return this.rest.post(
       Endpoints.INTERACTION_RESPONSE(
         interaction._id,
         interaction._token
-      ), {
-        method: 'POST',
-        body: options
-      }
-    )
+      ), options)
   }
 }

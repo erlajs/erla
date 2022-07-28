@@ -6,18 +6,18 @@ import { IDENTIFICATION, OPCODES } from '../util/Constants.js'
 
 export default class GatewaySocket extends EventEmitter {
   #wsUrl = 'wss://gateway.discord.gg/?v=10&encoding=json'
-  #shard = null
+  #client = null
   #connection = null
   #interval = null
   #token
   #intents
 
-  constructor (shard) {
+  constructor (client) {
     super()
 
-    this.#shard = shard
-    this.#token = shard.token
-    this.#intents = shard.intents
+    this.#client = client
+    this.#token = client.token
+    this.#intents = client.intents
   }
 
   connect () {
@@ -33,7 +33,7 @@ export default class GatewaySocket extends EventEmitter {
     this.#interval ||= clearInterval(this.#interval)
     this.#connection = null
 
-    this.shard.emit('disconnect')
+    this.#client.emit('disconnect')
   }
 
   #openConnection () {
@@ -59,10 +59,10 @@ export default class GatewaySocket extends EventEmitter {
       case OPCODES.DISPATCH:
         if (payload.t in EVENTS) {
           const event = EVENTS[payload.t]
-          event(this.#shard, payload)
+          event(this.#client, payload)
         }
 
-        this.#shard.emit('raw', payload)
+        this.#client.emit('raw', payload)
         break
 
       case OPCODES.HELLO:

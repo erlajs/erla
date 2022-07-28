@@ -10,14 +10,14 @@ export default class RequestHandler {
     this.#token = token
   }
 
-  request (path, options = {}) {
+  request (path, method, body) {
     return new Promise((resolve, reject) => {
       const url = new URL(this.#url + path)
 
       const req = https.request({
         host: url.host,
         path: url.pathname,
-        method: options.method,
+        method,
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bot ${this.#token.replace(/Bot\s?/, '')}`,
@@ -44,16 +44,36 @@ export default class RequestHandler {
         }
       })
 
-      if (options.body) {
-        const body = typeof options.body === 'string'
-          ? options.body
-          : JSON.stringify(options.body)
+      if (body) {
+        const data = typeof body === 'string'
+          ? body
+          : JSON.stringify(body)
 
-        req.setHeader('Content-Length', body.length)
-        req.write(body)
+        req.setHeader('Content-Length', data.length)
+        req.write(data)
       }
 
       req.end()
     })
+  }
+
+  get (path) {
+    return this.request(path, 'GET')
+  }
+
+  post (path, body) {
+    return this.request(path, 'POST', body)
+  }
+
+  patch (path, body) {
+    return this.request(path, 'PATCH', body)
+  }
+
+  put (path, body) {
+    return this.request(path, 'PUT', body)
+  }
+
+  delete (path, body) {
+    return this.request(path, 'DELETE', body)
   }
 }
