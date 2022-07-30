@@ -1,10 +1,13 @@
 import WebSocket from 'ws'
 import EventEmitter from 'events'
 
-import { EVENTS } from '../actions/index.js'
 import { IDENTIFICATION, OPCODES } from '../util/Constants.js'
 
-export default class GatewaySocket extends EventEmitter {
+import User from '../entities/global/User.js'
+import Message from '../entities/message/Message.js'
+import ApplicationCommand from '../entities/interaction/ApplicationCommand.js'
+
+export default class Socket extends EventEmitter {
   #wsUrl = 'wss://gateway.discord.gg/?v=10&encoding=json'
   #client = null
   #connection = null
@@ -57,12 +60,7 @@ export default class GatewaySocket extends EventEmitter {
 
     switch (payload.op) {
       case OPCODES.DISPATCH:
-        if (payload.t in EVENTS) {
-          const event = EVENTS[payload.t]
-          event(this.#client, payload)
-        }
-
-        this.#client.emit('raw', payload)
+        this.#dispatch(payload)
         break
 
       case OPCODES.HELLO:
@@ -90,5 +88,25 @@ export default class GatewaySocket extends EventEmitter {
         d: null
       }))
     }, ms)
+  }
+
+  #dispatch (payload) {
+    this.#client.emit('raw', payload)
+
+    switch (payload.t) {
+      case 'READY':
+        this.#client.user = new User(payload.d)
+
+        this.#client.emit('ready')
+        break
+
+      case 'MESSAGE_CREATE':
+        this.#client.emit('messageCreate', new Message(payload.d))
+        break
+
+      case 'INTERACTION_CREATE':
+        this.#client.emit('interactionCreate', new ApplicationCommand(payload.d))
+        break
+    }
   }
 }

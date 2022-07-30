@@ -1,6 +1,6 @@
 import EventEmitter from 'events'
 
-import GatewaySocket from './gateway/GatewaySocket.js'
+import WSGateway from './gateway/WSGateway.js'
 import RequestHandler from './http/RequestHandler.js'
 import Endpoints from './http/Endpoints.js'
 
@@ -20,7 +20,7 @@ export class Client extends EventEmitter {
   }
 
   login () {
-    this.gateway = new GatewaySocket(this)
+    this.gateway = new WSGateway(this)
 
     this.gateway.connect()
   }
