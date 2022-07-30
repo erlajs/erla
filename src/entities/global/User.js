@@ -11,7 +11,7 @@ export default class User extends Base {
     this.bot = d.bot || false
     this.avatar = d.avatar
     this.banner = d.banner
-    this.flags = new PublicFlags(d.public_flags)
+    this.publicFlags = new PublicFlags(d.public_flags)
   }
 
   get tag () {

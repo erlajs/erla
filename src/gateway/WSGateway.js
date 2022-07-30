@@ -6,6 +6,7 @@ import { IDENTIFICATION, OPCODES } from '../util/Constants.js'
 import User from '../entities/global/User.js'
 import Message from '../entities/message/Message.js'
 import ApplicationCommand from '../entities/interaction/ApplicationCommand.js'
+import Guild from '../entities/global/Guild.js'
 
 export default class Socket extends EventEmitter {
   #wsUrl = 'wss://gateway.discord.gg/?v=10&encoding=json'
@@ -14,6 +15,8 @@ export default class Socket extends EventEmitter {
   #interval = null
   #token
   #intents
+
+  #unavailableGuilds = 0
 
   constructor (client) {
     super()
@@ -97,7 +100,7 @@ export default class Socket extends EventEmitter {
       case 'READY':
         this.#client.user = new User(payload.d)
 
-        this.#client.emit('ready')
+        this.#unavailableGuilds = payload.d.guilds.length
         break
 
       case 'MESSAGE_CREATE':
@@ -107,6 +110,27 @@ export default class Socket extends EventEmitter {
       case 'INTERACTION_CREATE':
         this.#client.emit('interactionCreate', new ApplicationCommand(payload.d))
         break
+
+      case 'GUILD_CREATE': {
+        const guild = new Guild(payload.d)
+
+        this.#unavailableGuilds--
+        this.#client.guilds.add(guild.id, guild)
+        this.#client.emit('guildCreate', guild)
+
+        if (!this.#unavailableGuilds) {
+          this.#client.emit('ready')
+        }
+        break
+      }
+
+      case 'GUILD_REMOVE': {
+        const guild = new Guild(payload.d)
+
+        this.#client.guilds.remove(guild.id)
+        this.#client.emit('guildRemove', guild)
+        break
+      }
     }
   }
 }

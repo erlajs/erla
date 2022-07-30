@@ -7,8 +7,12 @@ import Endpoints from './http/Endpoints.js'
 import User from './entities/global/User.js'
 import Message from './entities/message/Message.js'
 
+import Collection from './util/Collection.js'
+
 export class Client extends EventEmitter {
   user
+
+  guilds = new Collection()
 
   constructor (token, options = {}) {
     super()
