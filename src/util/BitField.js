@@ -8,7 +8,12 @@ export default class BitField {
 
   parse () {
     return Object.entries(this.#bitfield)
-      .filter(([, bit]) => (this.value & bit) === bit)
-      .map(([field]) => field)
+      .reduce((entries, [field, bit]) => {
+        if ((this.value & bit) === bit) {
+          entries.push(field)
+        }
+
+        return entries
+      }, [])
   }
 }
