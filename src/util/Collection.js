@@ -1,6 +1,6 @@
 export default class Collection extends Map {
-  add (id, value, patch = true) {
-    if (this.has(id) && !patch) {
+  add (id, value) {
+    if (this.has(id)) {
       return this.get(id)
     }
 
