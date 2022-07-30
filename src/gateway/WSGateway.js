@@ -16,8 +16,6 @@ export default class Socket extends EventEmitter {
   #token
   #intents
 
-  #unavailableGuilds = 0
-
   constructor (client) {
     super()
 
@@ -100,7 +98,10 @@ export default class Socket extends EventEmitter {
       case 'READY':
         this.#client.user = new User(payload.d)
 
-        this.#unavailableGuilds = payload.d.guilds.length
+        for (const guild of payload.d.guilds) {
+          this.#client.unavailableGuilds.add(guild.id, guild)
+        }
+
         break
 
       case 'MESSAGE_CREATE':
@@ -114,13 +115,18 @@ export default class Socket extends EventEmitter {
       case 'GUILD_CREATE': {
         const guild = new Guild(payload.d)
 
-        this.#unavailableGuilds--
-        this.#client.guilds.add(guild.id, guild)
-        this.#client.emit('guildCreate', guild)
+        if (this.#client.unavailableGuilds.has(guild.id)) {
+          this.#client.unavailableGuilds.remove(guild.id)
+          this.#client.guilds.add(guild.id, guild)
 
-        if (!this.#unavailableGuilds) {
-          this.#client.emit('ready')
+          if (!this.#client.unavailableGuilds.size) {
+            this.#client.emit('ready')
+          }
+        } else {
+          this.#client.guilds.add(guild.id, guild)
         }
+
+        this.#client.emit('guildCreate', guild)
         break
       }
 

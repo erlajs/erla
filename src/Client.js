@@ -12,6 +12,7 @@ import Collection from './util/Collection.js'
 export class Client extends EventEmitter {
   user
 
+  unavailableGuilds = new Collection()
   guilds = new Collection()
 
   constructor (token, options = {}) {
