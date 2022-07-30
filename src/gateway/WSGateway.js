@@ -115,15 +115,11 @@ export default class Socket extends EventEmitter {
       case 'GUILD_CREATE': {
         const guild = new Guild(payload.d)
 
-        if (this.#client.unavailableGuilds.has(guild.id)) {
-          this.#client.unavailableGuilds.remove(guild.id)
-          this.#client.guilds.add(guild.id, guild)
+        const removed = this.#client.unavailableGuilds.remove(guild.id)
+        this.#client.guilds.add(guild.id, guild)
 
-          if (!this.#client.unavailableGuilds.size) {
-            this.#client.emit('ready')
-          }
-        } else {
-          this.#client.guilds.add(guild.id, guild)
+        if (removed && !this.#client.unavailableGuilds.size) {
+          this.#client.emit('ready')
         }
 
         this.#client.emit('guildCreate', guild)
